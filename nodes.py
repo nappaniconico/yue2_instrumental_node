@@ -30,3 +30,25 @@ class YuE2InstrumentalizeABC:
 
     def process(self, abc):
         return instrumentalize(abc)
+
+class AudioDuration:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "audio": ("AUDIO",),
+            }
+        }
+
+    RETURN_TYPES = ("FLOAT",)
+    RETURN_NAMES = ("duration_seconds",)
+    FUNCTION = "get_duration"
+    CATEGORY = "audio/utils"
+
+    def get_duration(self, audio):
+        waveform = audio["waveform"]
+        sample_rate = audio["sample_rate"]
+
+        duration = waveform.shape[-1] / sample_rate
+
+        return (float(duration),)
